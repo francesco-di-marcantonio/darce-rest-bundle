@@ -1,0 +1,10 @@
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: 'en'
+
+services:
+    App\Darce\RestBundle\Controller\FooController:
+        public: true
+        arguments:
+            $deserializer: '@app_darce_rest.service.request_deserializer'
+            $serializer: '@jms_serializer.serializer'

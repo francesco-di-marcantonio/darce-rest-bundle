@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="true" />
+
+        <service id="app_darce_rest.service.request_deserializer" class="App\Darce\RestBundle\Service\RequestDeserializer">
+            <argument type="service" id="jms_serializer.serializer" />
+            <argument type="service" id="validator" />
+        </service>
+
+        <service id="app_darce_rest.service.response_serializer" class="App\Darce\RestBundle\Service\ResponseSerializer">
+            <argument type="service" id="jms_serializer.serializer" />
+        </service>
+
+        <service id="app_darce_rest.event_listener.translatable_string_listener" class="App\Darce\RestBundle\EventListener\TranslatableStringListener">
+            <argument type="service" id="translator" />
+            <argument type="service" id="request_stack" />
+            <tag name="jms_serializer.subscribing_handler"/>
+        </service>
+
+        <service id="app_darce_rest.event_listener.on_exception_listener" class="App\Darce\RestBundle\EventListener\OnExceptionListener">
+            <argument type="service" id="jms_serializer.serializer" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="translator" />
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
+        </service>
+
+        <!-- ALIAS for Services -->
+        <service id="App\Darce\RestBundle\Service\RequestDeserializer" alias="app_darce_rest.service.request_deserializer" public="false"/>
+        <service id="App\Darce\RestBundle\Service\ResponseSerializer" alias="app_darce_rest.service.response_serializer" public="false"/>
+    </services>
+</container>

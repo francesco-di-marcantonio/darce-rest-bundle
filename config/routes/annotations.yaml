@@ -1,0 +1,5 @@
+api:
+  resource: ../src/Darce/RestBundle/Controller
+  prefix: /api
+  defaults:
+    _format: json
